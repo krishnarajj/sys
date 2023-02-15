@@ -1,0 +1,46 @@
+> (command) -n cattle-system cattle-cluster-agent
+Name:                   cattle-cluster-agent
+Namespace:              cattle-system
+CreationTimestamp:      Thu, 02 Jun 2022 11:32:50 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 4
+                        management.cattle.io/scale-available: 2
+Selector:               app=cattle-cluster-agent
+Replicas:               2 desired | 2 updated | 2 total | 1 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  0 max unavailable, 1 max surge
+Pod Template:
+  Labels:           app=cattle-cluster-agent
+  Service Account:  cattle
+  Containers:
+   cluster-register:
+    Image:      rancher/rancher-agent:v2.6.6
+    Port:       <none>
+    Host Port:  <none>
+    Environment:
+      CATTLE_FEATURES:           embedded-cluster-api=false,fleet=false,monitoringv1=false,multi-cluster-management=false,multi-cluster-management-agent=true,provisioningv2=false,rke2=false
+      CATTLE_IS_RKE:             true
+      CATTLE_SERVER:             https://rancher.iceye.edge
+      CATTLE_CA_CHECKSUM:        c4f67a0f5efee636de038f8f684880b7885142d35507e2a4ef0d13431a8b6494
+      CATTLE_CLUSTER:            true
+      CATTLE_K8S_MANAGED:        true
+      CATTLE_CLUSTER_REGISTRY:   
+      CATTLE_SERVER_VERSION:     v2.6.6
+      CATTLE_INSTALL_UUID:       64846b25-3be6-4efa-9f17-efc1f300ab64
+      CATTLE_INGRESS_IP_DOMAIN:  sslip.io
+    Mounts:
+      /cattle-credentials from cattle-credentials (ro)
+  Volumes:
+   cattle-credentials:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  cattle-credentials-6822185
+    Optional:    false
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      False   MinimumReplicasUnavailable
+OldReplicaSets:  <none>
+NewReplicaSet:   cattle-cluster-agent-547cb64d75 (2/2 replicas created)
+Events:          <none>

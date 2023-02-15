@@ -1,0 +1,242 @@
+> (command) -n minio pod isilon-pool-0-3
+Name:         isilon-pool-0-3
+Namespace:    minio
+Priority:     0
+Node:         mars-node-2/10.50.5.159
+Start Time:   Sat, 12 Nov 2022 19:45:14 +0000
+Labels:       app=minio
+              app.kubernetes.io/managed-by=Helm
+              controller-revision-hash=isilon-pool-0-7d7f9676f5
+              security.istio.io/tlsMode=istio
+              service.istio.io/canonical-name=minio
+              service.istio.io/canonical-revision=latest
+              statefulset.kubernetes.io/pod-name=isilon-pool-0-3
+              v1.min.io/console=isilon-console
+              v1.min.io/pool=pool-0
+              v1.min.io/tenant=isilon
+Annotations:  cni.projectcalico.org/containerID: b30a9e6a8bb4d4abe7fd637bd3235d3b71654bc74af2758a298adae8a8b5e517
+              cni.projectcalico.org/podIP: 10.42.1.247/32
+              cni.projectcalico.org/podIPs: 10.42.1.247/32
+              kubectl.kubernetes.io/default-container: minio
+              kubectl.kubernetes.io/default-logs-container: minio
+              meta.helm.sh/release-name: isilon-minio-tenant
+              meta.helm.sh/release-namespace: minio
+              min.io/revision: 0
+              prometheus.io/path: /stats/prometheus
+              prometheus.io/port: 15020
+              prometheus.io/scheme: http
+              prometheus.io/scrape: true
+              sidecar.istio.io/status:
+                {"initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["workload-socket","workload-certs","istio-envoy","istio-data","is...
+Status:       Running
+IP:           10.42.1.247
+IPs:
+  IP:           10.42.1.247
+Controlled By:  StatefulSet/isilon-pool-0
+Init Containers:
+  istio-init:
+    Container ID:  docker://d89cac505be3694d71eca7e28243b6ddaf3655666e39e47c209a16e3f000e93a
+    Image:         rancher/mirrored-istio-proxyv2:1.14.1-distroless
+    Image ID:      docker-pullable://rancher/mirrored-istio-proxyv2@sha256:8bb529dc9a275f6ff344d09d50b3bcf647e7ed7ec6fe225296fb29451e2ade3c
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      istio-iptables
+      -p
+      15001
+      -z
+      15006
+      -u
+      1337
+      -m
+      REDIRECT
+      -i
+      *
+      -x
+      
+      -b
+      *
+      -d
+      15090,15021,15020
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Sat, 12 Nov 2022 19:45:34 +0000
+      Finished:     Sat, 12 Nov 2022 19:45:35 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     200m
+      memory:  256Mi
+    Requests:
+      cpu:        100m
+      memory:     128Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jrv2z (ro)
+Containers:
+  istio-proxy:
+    Container ID:  docker://da72068225aec5c786c01869272459b89f28ec63abf61cb68327a1a2cdb16e09
+    Image:         rancher/mirrored-istio-proxyv2:1.14.1-distroless
+    Image ID:      docker-pullable://rancher/mirrored-istio-proxyv2@sha256:8bb529dc9a275f6ff344d09d50b3bcf647e7ed7ec6fe225296fb29451e2ade3c
+    Port:          15090/TCP
+    Host Port:     0/TCP
+    Args:
+      proxy
+      sidecar
+      --domain
+      $(POD_NAMESPACE).svc.cluster.local
+      --proxyLogLevel=warning
+      --proxyComponentLogLevel=misc:error
+      --log_output_level=default:info
+      --concurrency
+      2
+    State:          Running
+      Started:      Sat, 12 Nov 2022 19:45:36 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     200m
+      memory:  256Mi
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Readiness:  http-get http://:15021/healthz/ready delay=1s timeout=3s period=2s #success=1 #failure=30
+    Environment:
+      JWT_POLICY:                    third-party-jwt
+      PILOT_CERT_PROVIDER:           istiod
+      CA_ADDR:                       istiod.istio-system.svc:15012
+      POD_NAME:                      isilon-pool-0-3 (v1:metadata.name)
+      POD_NAMESPACE:                 minio (v1:metadata.namespace)
+      INSTANCE_IP:                    (v1:status.podIP)
+      SERVICE_ACCOUNT:                (v1:spec.serviceAccountName)
+      HOST_IP:                        (v1:status.hostIP)
+      PROXY_CONFIG:                  {"terminationDrainDuration":"10s","holdApplicationUntilProxyStarts":true}
+                                     
+      ISTIO_META_POD_PORTS:          [
+                                         {"containerPort":9000,"protocol":"TCP"}
+                                         ,{"containerPort":9090,"protocol":"TCP"}
+                                     ]
+      ISTIO_META_APP_CONTAINERS:     minio
+      ISTIO_META_CLUSTER_ID:         Kubernetes
+      ISTIO_META_INTERCEPTION_MODE:  REDIRECT
+      ISTIO_META_WORKLOAD_NAME:      isilon-pool-0
+      ISTIO_META_OWNER:              kubernetes://apis/apps/v1/namespaces/minio/statefulsets/isilon-pool-0
+      ISTIO_META_MESH_ID:            cluster.local
+      TRUST_DOMAIN:                  cluster.local
+      ISTIO_PROMETHEUS_ANNOTATIONS:  {"scrape":"true","path":"/minio/v2/metrics/cluster","port":"9000"}
+    Mounts:
+      /etc/istio/pod from istio-podinfo (rw)
+      /etc/istio/proxy from istio-envoy (rw)
+      /var/lib/istio/data from istio-data (rw)
+      /var/run/secrets/istio from istiod-ca-cert (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jrv2z (ro)
+      /var/run/secrets/tokens from istio-token (rw)
+      /var/run/secrets/workload-spiffe-credentials from workload-certs (rw)
+      /var/run/secrets/workload-spiffe-uds from workload-socket (rw)
+  minio:
+    Container ID:  docker://5213646198f57b1820b1db9cb41612cf36ba459e178aea3b79d66c6cbcf7709c
+    Image:         minio/minio:RELEASE.2022-01-08T03-11-54Z
+    Image ID:      docker-pullable://minio/minio@sha256:7d9c041cf592851fc42b970dc1e56f49fe0600c658e75833825ac1c75ec0e9da
+    Ports:         9000/TCP, 9090/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Args:
+      server
+      --certs-dir
+      /tmp/certs
+      --console-address
+      :9090
+    State:          Running
+      Started:      Sat, 12 Nov 2022 19:45:39 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     500m
+      memory:  8Gi
+    Requests:
+      cpu:     250m
+      memory:  4Gi
+    Environment:
+      MINIO_DOMAIN:                  minio.mars.iceye.edge,minio.minio.svc.cluster.local
+      MINIO_UPDATE:                  on
+      MINIO_UPDATE_MINISIGN_PUBKEY:  RWTx5Zr1tiHQLwG9keckT0c45M3AGeHD6IvimQHpyRywVWGbP1aVSGav
+      MINIO_ARGS:                    <set to the key 'MINIO_ARGS' in secret 'operator-webhook-secret'>  Optional: false
+      MINIO_ENDPOINTS:               http://isilon-pool-0-{0...3}.isilon-hl.minio.svc.cluster.local/export{0...3}/data
+      MINIO_OPERATOR_VERSION:        v4.4.16
+      MINIO_PROMETHEUS_JOB_ID:       minio-job
+      MINIO_ROOT_USER:               <set to the key 'accesskey' in secret 'isilon-minio-tenant-secret'>  Optional: false
+      MINIO_ROOT_PASSWORD:           <set to the key 'secretkey' in secret 'isilon-minio-tenant-secret'>  Optional: false
+      MINIO_SERVER_URL:              http://minio.minio.svc.cluster.local:80
+    Mounts:
+      /export0 from data0 (rw)
+      /export1 from data1 (rw)
+      /export2 from data2 (rw)
+      /export3 from data3 (rw)
+      /tmp/certs from isilon-tls (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jrv2z (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  workload-socket:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  workload-certs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-envoy:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  istio-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-podinfo:
+    Type:  DownwardAPI (a volume populated by information about the pod)
+    Items:
+      metadata.labels -> labels
+      metadata.annotations -> annotations
+  istio-token:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  43200
+  istiod-ca-cert:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      istio-ca-root-cert
+    Optional:  false
+  data1:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  data1-isilon-pool-0-3
+    ReadOnly:   false
+  data2:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  data2-isilon-pool-0-3
+    ReadOnly:   false
+  data3:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  data3-isilon-pool-0-3
+    ReadOnly:   false
+  data0:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  data0-isilon-pool-0-3
+    ReadOnly:   false
+  isilon-tls:
+    Type:                Projected (a volume that contains injected data from multiple sources)
+    SecretName:          operator-tls
+    SecretOptionalName:  <nil>
+  kube-api-access-jrv2z:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      <none>

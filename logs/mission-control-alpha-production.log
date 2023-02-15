@@ -1,0 +1,61 @@
+> (command) -n mission-control-alpha-production input-generator
+Name:                   input-generator
+Namespace:              mission-control-alpha-production
+CreationTimestamp:      Sun, 19 Jun 2022 12:10:45 +0000
+Labels:                 app.kubernetes.io/instance=input-generator
+                        app.kubernetes.io/managed-by=Helm
+                        app.kubernetes.io/name=input-generator
+                        app.kubernetes.io/version=production_v2.6.0
+                        helm.sh/chart=input-generator-1.2.0
+                        helm.toolkit.fluxcd.io/name=input-generator
+                        helm.toolkit.fluxcd.io/namespace=mission-control-alpha-production
+Annotations:            deployment.kubernetes.io/revision: 10
+                        meta.helm.sh/release-name: input-generator
+                        meta.helm.sh/release-namespace: mission-control-alpha-production
+Selector:               app.kubernetes.io/instance=input-generator,app.kubernetes.io/name=input-generator
+Replicas:               1 desired | 1 updated | 1 total | 0 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:           app=input-generator
+                    app.kubernetes.io/instance=input-generator
+                    app.kubernetes.io/name=input-generator
+                    tags.datadoghq.com/env=alpha-production
+                    version=production_v3.0.1
+  Annotations:      ad.datadoghq.com/input-generator.logs:
+                      [{
+                      
+                        "service": "input-generator",
+                        "source": "mission-control"
+                      }]
+  Service Account:  input-generator
+  Containers:
+   input-generator:
+    Image:      harbor.alpha.iceye.edge/iceye/mission-control/input-generator:production_v3.0.1
+    Port:       <none>
+    Host Port:  <none>
+    Limits:
+      cpu:     1
+      memory:  1Gi
+    Requests:
+      cpu:      1
+      memory:   1Gi
+    Liveness:   exec [/bin/sh -c test -e /tmp/worker_heartbeat] delay=5s timeout=1s period=60s #success=0 #failure=5
+    Readiness:  exec [/bin/sh -c test -e /tmp/worker_ready] delay=5s timeout=1s period=30s #success=0 #failure=5
+    Environment Variables from:
+      input-generator  Secret  Optional: false
+    Environment:
+      ASSET_CONFIG_API_URL:  http://asset-config.asset-config-alpha-production.svc.cluster.local/
+      OD_API_URL:            http://od-api.od-api-alpha-production.svc.cluster.local/
+      OD_SERVICE_URL:        $(OD_API_URL)v1/
+    Mounts:                  <none>
+  Volumes:                   <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      False   MinimumReplicasUnavailable
+OldReplicaSets:  <none>
+NewReplicaSet:   input-generator-6bb9f97576 (1/1 replicas created)
+Events:          <none>

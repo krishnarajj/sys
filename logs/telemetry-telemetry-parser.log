@@ -1,0 +1,150 @@
+> (command) -n telemetry-mars-production
+Name:                   telemetry-parser
+Namespace:              telemetry-mars-production
+CreationTimestamp:      Sat, 18 Jun 2022 16:57:25 +0000
+Labels:                 app=telemetry-parser
+                        kustomize.toolkit.fluxcd.io/name=gsc-telemetry-mars-production
+                        kustomize.toolkit.fluxcd.io/namespace=flux-system
+Annotations:            deployment.kubernetes.io/revision: 13
+Selector:               app=telemetry-parser
+Replicas:               2 desired | 2 updated | 2 total | 2 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:           app=telemetry-parser
+  Annotations:      ad.datadoghq.com/tags: {"env": "mars-production", "service": "telemetry-parser"}
+                    ad.datadoghq.com/telemetry-parser.logs: [{"service":"telemetry-parser"}]
+                    cattle.io/timestamp: 2022-06-20T15:26:26Z
+  Service Account:  telemetry-parser
+  Init Containers:
+   minio-setup-nsq-tar:
+    Image:      harbor.mars.iceye.edge/iceye/common/minio-admin@sha256:5cf0e627560d14c5bf28e42d080aacd2bec4ccc78c468a38f11e5e8ab7009bb2
+    Port:       <none>
+    Host Port:  <none>
+    Limits:
+      memory:  128Mi
+    Requests:
+      cpu:  300m
+    Environment:
+      minio_url:        <set to the key 'minio_url' of config map 'telemetry-parser-env'>          Optional: false
+      root_access_key:  <set to the key 'root_access_key' in secret 'bucket-creator-credentials'>  Optional: false
+      root_secret_key:  <set to the key 'root_secret_key' in secret 'bucket-creator-credentials'>  Optional: false
+      user_access_key:  <set to the key 'minio-access-key' in secret 'telemetry-parser-secrets'>   Optional: false
+      user_secret_key:  <set to the key 'minio-secret-key' in secret 'telemetry-parser-secrets'>   Optional: false
+      bucket_name:      <set to the key 'bucket_name' of config map 'telemetry-parser-env'>        Optional: false
+      nsqd_address:     <set to the key 'nsqd_address' of config map 'telemetry-parser-env'>       Optional: false
+      nsq_topic:        <set to the key 'nsq_topic' of config map 'telemetry-parser-env'>          Optional: false
+      event_type:       <set to the key 'event_type' of config map 'telemetry-parser-env'>         Optional: false
+      prefix:           <set to the key 'prefix' of config map 'telemetry-parser-env'>             Optional: false
+      suffix:           .tar
+    Mounts:
+      /tmp/minio from minio-policy (rw)
+   minio-setup-nsq-bin:
+    Image:      harbor.mars.iceye.edge/iceye/common/minio-admin@sha256:5cf0e627560d14c5bf28e42d080aacd2bec4ccc78c468a38f11e5e8ab7009bb2
+    Port:       <none>
+    Host Port:  <none>
+    Limits:
+      memory:  128Mi
+    Requests:
+      cpu:     300m
+      memory:  64Mi
+    Environment:
+      minio_url:        <set to the key 'minio_url' of config map 'telemetry-parser-env'>          Optional: false
+      root_access_key:  <set to the key 'root_access_key' in secret 'bucket-creator-credentials'>  Optional: false
+      root_secret_key:  <set to the key 'root_secret_key' in secret 'bucket-creator-credentials'>  Optional: false
+      user_access_key:  <set to the key 'minio-access-key' in secret 'telemetry-parser-secrets'>   Optional: false
+      user_secret_key:  <set to the key 'minio-secret-key' in secret 'telemetry-parser-secrets'>   Optional: false
+      bucket_name:      <set to the key 'bucket_name' of config map 'telemetry-parser-env'>        Optional: false
+      nsqd_address:     <set to the key 'nsqd_address' of config map 'telemetry-parser-env'>       Optional: false
+      nsq_topic:        <set to the key 'nsq_topic' of config map 'telemetry-parser-env'>          Optional: false
+      event_type:       <set to the key 'event_type' of config map 'telemetry-parser-env'>         Optional: false
+      prefix:           <set to the key 'prefix' of config map 'telemetry-parser-env'>             Optional: false
+      suffix:           .bin
+    Mounts:
+      /tmp/minio from minio-policy (rw)
+   grafana-automation:
+    Image:      harbor.mars.iceye.edge/iceye/telemetry/parser:production_v1.0.25_f470a38
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      python /app/scripts/grafana-import.py
+    Requests:
+      cpu:     100m
+      memory:  256Mi
+    Environment:
+      GRAFANA_USERNAME:             <set to the key 'grafana-username' in secret 'telemetry-parser-secrets'>  Optional: false
+      GRAFANA_PASSWORD:             <set to the key 'grafana-password' in secret 'telemetry-parser-secrets'>  Optional: false
+      GRAFANA_URL:                  https://grafana-common.mars.iceye.edge
+      GATEAWAY_CONNECTION_SERVICE:  ws://gateway-connection-service.gcs-mars-production.svc.cluster.local
+      TELEMETRY_DB_USERNAME:        <set to the key 'username' in secret 'stored-telemetry-db'>  Optional: false
+      TELEMETRY_DB_PASSWORD:        <set to the key 'password' in secret 'stored-telemetry-db'>  Optional: false
+      TELEMETRY_DB_NAME:            stored_telemetry_db_mars_production
+      TELEMETRY_DB_HOST:            stored-telemetry-db-primary.telemetry-mars-production.svc.cluster.local.
+      RTT_DB_HOST:                  main-primary.postgres-operator.svc
+      RTT_DB_USERNAME:              <set to the key 'user' in secret 'rtt-db-credentials'>      Optional: false
+      RTT_DB_PASSWORD:              <set to the key 'password' in secret 'rtt-db-credentials'>  Optional: false
+      RTT_DB_NAME:                  rtt_mars_production
+      BEACON_DB_HOST:               main-primary.postgres-operator.svc
+      BEACON_DB_USERNAME:           <set to the key 'user' in secret 'beacon-db-credentials'>      Optional: false
+      BEACON_DB_PASSWORD:           <set to the key 'password' in secret 'beacon-db-credentials'>  Optional: false
+      BEACON_DB_NAME:               beacon_mars_production
+    Mounts:                         <none>
+   aws-s3-downloader:
+    Image:      amazon/aws-cli
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      aws --endpoint-url ${AWS_URL} s3 cp s3://telemetry-mars-production/ASSETS/PARSER/etc/ /app/telemetryparser/etc/ --recursive
+    Limits:
+      cpu:  300m
+    Requests:
+      cpu:     100m
+      memory:  256Mi
+    Environment:
+      AWS_ACCESS_KEY_ID:      <set to the key 'minio-access-key' in secret 'telemetry-parser-secrets'>  Optional: false
+      AWS_SECRET_ACCESS_KEY:  <set to the key 'minio-secret-key' in secret 'telemetry-parser-secrets'>  Optional: false
+      AWS_URL:                http://minio.minio.svc.cluster.local
+    Mounts:
+      /app/telemetryparser/etc from etc (rw)
+  Containers:
+   telemetry-parser:
+    Image:      harbor.mars.iceye.edge/iceye/telemetry/parser:production_v1.0.25_f470a38
+    Port:       <none>
+    Host Port:  <none>
+    Limits:
+      cpu:     300m
+      memory:  600Mi
+    Requests:
+      cpu:     100m
+      memory:  600Mi
+    Environment Variables from:
+      telemetry-parser-env  ConfigMap  Optional: false
+    Environment:
+      AWS_ACCESS_KEY_ID:      <set to the key 'minio-access-key' in secret 'telemetry-parser-secrets'>  Optional: false
+      AWS_SECRET_ACCESS_KEY:  <set to the key 'minio-secret-key' in secret 'telemetry-parser-secrets'>  Optional: false
+      TELEMETRY_DB_USERNAME:  <set to the key 'username' in secret 'stored-telemetry-db'>               Optional: false
+      TELEMETRY_DB_PASSWORD:  <set to the key 'password' in secret 'stored-telemetry-db'>               Optional: false
+    Mounts:
+      /app/telemetryparser/etc from etc (rw)
+  Volumes:
+   etc:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+   minio-policy:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      telemetry-parser-env
+    Optional:  false
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      True    MinimumReplicasAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   telemetry-parser-94bbd8ff9 (2/2 replicas created)
+Events:          <none>

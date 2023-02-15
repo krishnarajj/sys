@@ -1,0 +1,177 @@
+> (command) beacon-listener-8495cbbb94-5d7pm  -n telemetry-mars-production
+Name:           beacon-listener-8495cbbb94-5d7pm
+Namespace:      telemetry-mars-production
+Priority:       0
+Node:           mars-node-0/
+Start Time:     Sun, 23 Oct 2022 18:11:49 +0000
+Labels:         app=beacon-listener
+                istio.io/rev=default
+                pod-template-hash=8495cbbb94
+                security.istio.io/tlsMode=istio
+                service.istio.io/canonical-name=beacon-listener
+                service.istio.io/canonical-revision=latest
+Annotations:    ad.datadoghq.com/beacon-listener.logs: [{"service":"beacon-listener"}]
+                ad.datadoghq.com/tags: {"env": "mars-production", "service": "beacon-listener"}
+                cattle.io/timestamp: 2022-09-07T16:08:19Z
+                cni.projectcalico.org/containerID: 52a468038e049db506d995989032e4388888f8125bc57f5c306310bbea496f4f
+                cni.projectcalico.org/podIP: 
+                cni.projectcalico.org/podIPs: 
+                kubectl.kubernetes.io/default-logs-container: beacon-listener
+                prometheus.io/path: /stats/prometheus
+                prometheus.io/port: 15020
+                prometheus.io/scrape: true
+                sidecar.istio.io/proxyCPULimit: 200m
+                sidecar.istio.io/proxyMemoryLimit: 256Mi
+                sidecar.istio.io/status:
+                  {"initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["istio-envoy","istio-data","istio-podinfo","istio-token","istiod-...
+Status:         Failed
+Reason:         Evicted
+Message:        The node was low on resource: ephemeral-storage. Container istio-proxy was using 120Ki, which exceeds its request of 0. Container beacon-listener was using 316Ki, which exceeds its request of 0. 
+IP:             
+IPs:            <none>
+Controlled By:  ReplicaSet/beacon-listener-8495cbbb94
+Init Containers:
+  istio-init:
+    Image:      rancher/mirrored-istio-proxyv2:1.9.5
+    Port:       <none>
+    Host Port:  <none>
+    Args:
+      istio-iptables
+      -p
+      15001
+      -z
+      15006
+      -u
+      1337
+      -m
+      REDIRECT
+      -i
+      *
+      -x
+      
+      -b
+      *
+      -d
+      15090,15021,15020
+    Limits:
+      cpu:     200m
+      memory:  256Mi
+    Requests:
+      cpu:        200m
+      memory:     256Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rwlnw (ro)
+Containers:
+  istio-proxy:
+    Image:      rancher/mirrored-istio-proxyv2:1.9.5
+    Port:       15090/TCP
+    Host Port:  0/TCP
+    Args:
+      proxy
+      sidecar
+      --domain
+      $(POD_NAMESPACE).svc.cluster.local
+      --serviceCluster
+      beacon-listener.$(POD_NAMESPACE)
+      --proxyLogLevel=warning
+      --proxyComponentLogLevel=misc:error
+      --log_output_level=default:info
+      --concurrency
+      2
+    Limits:
+      cpu:     200m
+      memory:  256Mi
+    Requests:
+      cpu:      200m
+      memory:   256Mi
+    Readiness:  http-get http://:15021/healthz/ready delay=1s timeout=3s period=2s #success=1 #failure=30
+    Environment:
+      JWT_POLICY:                    third-party-jwt
+      PILOT_CERT_PROVIDER:           istiod
+      CA_ADDR:                       istiod.istio-system.svc:15012
+      POD_NAME:                      beacon-listener-8495cbbb94-5d7pm (v1:metadata.name)
+      POD_NAMESPACE:                 telemetry-mars-production (v1:metadata.namespace)
+      INSTANCE_IP:                    (v1:status.podIP)
+      SERVICE_ACCOUNT:                (v1:spec.serviceAccountName)
+      HOST_IP:                        (v1:status.hostIP)
+      CANONICAL_SERVICE:              (v1:metadata.labels['service.istio.io/canonical-name'])
+      CANONICAL_REVISION:             (v1:metadata.labels['service.istio.io/canonical-revision'])
+      PROXY_CONFIG:                  {"terminationDrainDuration":"10s","holdApplicationUntilProxyStarts":true}
+                                     
+      ISTIO_META_POD_PORTS:          [
+                                     ]
+      ISTIO_META_APP_CONTAINERS:     beacon-listener
+      ISTIO_META_CLUSTER_ID:         Kubernetes
+      ISTIO_META_INTERCEPTION_MODE:  REDIRECT
+      ISTIO_METAJSON_ANNOTATIONS:    {"ad.datadoghq.com/beacon-listener.logs":"[{\"service\":\"beacon-listener\"}]","ad.datadoghq.com/tags":"{\"env\": \"mars-production\", \"service\": \"beacon-listener\"}","cattle.io/timestamp":"2022-09-07T16:08:19Z","sidecar.istio.io/proxyCPULimit":"200m","sidecar.istio.io/proxyMemoryLimit":"256Mi"}
+                                     
+      ISTIO_META_WORKLOAD_NAME:      beacon-listener
+      ISTIO_META_OWNER:              kubernetes://apis/apps/v1/namespaces/telemetry-mars-production/deployments/beacon-listener
+      ISTIO_META_MESH_ID:            cluster.local
+      TRUST_DOMAIN:                  cluster.local
+    Mounts:
+      /etc/istio/pod from istio-podinfo (rw)
+      /etc/istio/proxy from istio-envoy (rw)
+      /var/lib/istio/data from istio-data (rw)
+      /var/run/secrets/istio from istiod-ca-cert (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rwlnw (ro)
+      /var/run/secrets/tokens from istio-token (rw)
+  beacon-listener:
+    Image:      harbor.mars.iceye.edge/iceye/telemetry/beacon:production_v0.2.3_0ab5e26
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      /app/start.sh
+    Limits:
+      cpu:     300m
+      memory:  1Gi
+    Requests:
+      cpu:     100m
+      memory:  256Mi
+    Environment Variables from:
+      telemetry-env  ConfigMap  Optional: false
+    Environment:
+      RTT_DB_HOST:        main-primary.postgres-operator.svc
+      BEACON_DB_NAME:     beacon_mars_production
+      RTT_DB_USERNAME:    <set to the key 'user' in secret 'beacon-db-credentials'>      Optional: false
+      RTT_DB_PASSWORD:    <set to the key 'password' in secret 'beacon-db-credentials'>  Optional: false
+      ICEYE_PASSPHRASE:   <set to the key 'passphrase' in secret 'iceye-secret'>         Optional: false
+      mars_PASSPHRASE:    <set to the key 'passphrase' in secret 'mars-secret'>          Optional: false
+      OFX_PASSPHRASE:     <set to the key 'passphrase' in secret 'ofx-secret'>           Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rwlnw (ro)
+Volumes:
+  istio-envoy:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  istio-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-podinfo:
+    Type:  DownwardAPI (a volume populated by information about the pod)
+    Items:
+      metadata.labels -> labels
+      metadata.annotations -> annotations
+      limits.cpu -> cpu-limit
+      requests.cpu -> cpu-request
+  istio-token:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  43200
+  istiod-ca-cert:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      istio-ca-root-cert
+    Optional:  false
+  kube-api-access-rwlnw:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      <none>

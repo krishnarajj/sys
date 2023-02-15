@@ -1,0 +1,205 @@
+> (command) beacon-listener-8495cbbb94-vvctq  -n telemetry-mars-production
+Name:         beacon-listener-8495cbbb94-vvctq
+Namespace:    telemetry-mars-production
+Priority:     0
+Node:         mars-node-0/10.50.5.157
+Start Time:   Thu, 05 Jan 2023 21:19:20 +0000
+Labels:       app=beacon-listener
+              pod-template-hash=8495cbbb94
+              security.istio.io/tlsMode=istio
+              service.istio.io/canonical-name=beacon-listener
+              service.istio.io/canonical-revision=latest
+Annotations:  ad.datadoghq.com/beacon-listener.logs: [{"service":"beacon-listener"}]
+              ad.datadoghq.com/tags: {"env": "mars-production", "service": "beacon-listener"}
+              cattle.io/timestamp: 2022-09-07T16:08:19Z
+              cni.projectcalico.org/containerID: 5a8360ab5207ff98c27ae6d2f187dacc6d5e3c106a60fac7d22d9ddc83a4ce0a
+              cni.projectcalico.org/podIP: 10.42.0.12/32
+              cni.projectcalico.org/podIPs: 10.42.0.12/32
+              kubectl.kubernetes.io/default-container: beacon-listener
+              kubectl.kubernetes.io/default-logs-container: beacon-listener
+              prometheus.io/path: /stats/prometheus
+              prometheus.io/port: 15020
+              prometheus.io/scrape: true
+              sidecar.istio.io/proxyCPULimit: 200m
+              sidecar.istio.io/proxyMemoryLimit: 256Mi
+              sidecar.istio.io/status:
+                {"initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["workload-socket","workload-certs","istio-envoy","istio-data","is...
+Status:       Running
+IP:           10.42.0.12
+IPs:
+  IP:           10.42.0.12
+Controlled By:  ReplicaSet/beacon-listener-8495cbbb94
+Init Containers:
+  istio-init:
+    Container ID:  docker://867e22718ceb524b9ee32ef925faddfecde590cfe1ee0eb8d5f3c8a240197a87
+    Image:         rancher/mirrored-istio-proxyv2:1.14.1-distroless
+    Image ID:      docker-pullable://rancher/mirrored-istio-proxyv2@sha256:8bb529dc9a275f6ff344d09d50b3bcf647e7ed7ec6fe225296fb29451e2ade3c
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      istio-iptables
+      -p
+      15001
+      -z
+      15006
+      -u
+      1337
+      -m
+      REDIRECT
+      -i
+      *
+      -x
+      
+      -b
+      *
+      -d
+      15090,15021,15020
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Thu, 05 Jan 2023 21:19:22 +0000
+      Finished:     Thu, 05 Jan 2023 21:19:22 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     200m
+      memory:  256Mi
+    Requests:
+      cpu:        200m
+      memory:     256Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pnhz5 (ro)
+Containers:
+  istio-proxy:
+    Container ID:  docker://a592a14866e5595289b1aa07b5e086196e332d5685377d13c8e43e39bcd0e078
+    Image:         rancher/mirrored-istio-proxyv2:1.14.1-distroless
+    Image ID:      docker-pullable://rancher/mirrored-istio-proxyv2@sha256:8bb529dc9a275f6ff344d09d50b3bcf647e7ed7ec6fe225296fb29451e2ade3c
+    Port:          15090/TCP
+    Host Port:     0/TCP
+    Args:
+      proxy
+      sidecar
+      --domain
+      $(POD_NAMESPACE).svc.cluster.local
+      --proxyLogLevel=warning
+      --proxyComponentLogLevel=misc:error
+      --log_output_level=default:info
+      --concurrency
+      2
+    State:          Running
+      Started:      Thu, 05 Jan 2023 21:19:24 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     200m
+      memory:  256Mi
+    Requests:
+      cpu:      200m
+      memory:   256Mi
+    Readiness:  http-get http://:15021/healthz/ready delay=1s timeout=3s period=2s #success=1 #failure=30
+    Environment:
+      JWT_POLICY:                    third-party-jwt
+      PILOT_CERT_PROVIDER:           istiod
+      CA_ADDR:                       istiod.istio-system.svc:15012
+      POD_NAME:                      beacon-listener-8495cbbb94-vvctq (v1:metadata.name)
+      POD_NAMESPACE:                 telemetry-mars-production (v1:metadata.namespace)
+      INSTANCE_IP:                    (v1:status.podIP)
+      SERVICE_ACCOUNT:                (v1:spec.serviceAccountName)
+      HOST_IP:                        (v1:status.hostIP)
+      PROXY_CONFIG:                  {"terminationDrainDuration":"10s","holdApplicationUntilProxyStarts":true}
+                                     
+      ISTIO_META_POD_PORTS:          [
+                                     ]
+      ISTIO_META_APP_CONTAINERS:     beacon-listener
+      ISTIO_META_CLUSTER_ID:         Kubernetes
+      ISTIO_META_INTERCEPTION_MODE:  REDIRECT
+      ISTIO_META_WORKLOAD_NAME:      beacon-listener
+      ISTIO_META_OWNER:              kubernetes://apis/apps/v1/namespaces/telemetry-mars-production/deployments/beacon-listener
+      ISTIO_META_MESH_ID:            cluster.local
+      TRUST_DOMAIN:                  cluster.local
+    Mounts:
+      /etc/istio/pod from istio-podinfo (rw)
+      /etc/istio/proxy from istio-envoy (rw)
+      /var/lib/istio/data from istio-data (rw)
+      /var/run/secrets/istio from istiod-ca-cert (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pnhz5 (ro)
+      /var/run/secrets/tokens from istio-token (rw)
+      /var/run/secrets/workload-spiffe-credentials from workload-certs (rw)
+      /var/run/secrets/workload-spiffe-uds from workload-socket (rw)
+  beacon-listener:
+    Container ID:  docker://267e69c4402e3845fd376166417d9808bf74dbb3d396d6e6dbd535cd5c77960f
+    Image:         harbor.mars.iceye.edge/iceye/telemetry/beacon:production_v0.2.3_0ab5e26
+    Image ID:      docker-pullable://harbor.mars.iceye.edge/iceye/telemetry/beacon@sha256:721d6a589ef6548b1091d4b4cf4d6362bf31db6b69563ba405de448c947163bb
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /app/start.sh
+    State:          Running
+      Started:      Sun, 08 Jan 2023 12:51:39 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     300m
+      memory:  1Gi
+    Requests:
+      cpu:     100m
+      memory:  256Mi
+    Environment Variables from:
+      telemetry-env  ConfigMap  Optional: false
+    Environment:
+      RTT_DB_HOST:        main-primary.postgres-operator.svc
+      BEACON_DB_NAME:     beacon_mars_production
+      RTT_DB_USERNAME:    <set to the key 'user' in secret 'beacon-db-credentials'>      Optional: false
+      RTT_DB_PASSWORD:    <set to the key 'password' in secret 'beacon-db-credentials'>  Optional: false
+      ICEYE_PASSPHRASE:   <set to the key 'passphrase' in secret 'iceye-secret'>         Optional: false
+      mars_PASSPHRASE:    <set to the key 'passphrase' in secret 'mars-secret'>          Optional: false
+      OFX_PASSPHRASE:     <set to the key 'passphrase' in secret 'ofx-secret'>           Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pnhz5 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  workload-socket:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  workload-certs:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-envoy:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  istio-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  istio-podinfo:
+    Type:  DownwardAPI (a volume populated by information about the pod)
+    Items:
+      metadata.labels -> labels
+      metadata.annotations -> annotations
+  istio-token:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  43200
+  istiod-ca-cert:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      istio-ca-root-cert
+    Optional:  false
+  kube-api-access-pnhz5:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      <none>

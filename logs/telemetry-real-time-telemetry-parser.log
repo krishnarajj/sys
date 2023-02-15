@@ -1,0 +1,87 @@
+> (command) -n telemetry-mars-production
+Name:                   real-time-telemetry-parser
+Namespace:              telemetry-mars-production
+CreationTimestamp:      Sat, 18 Jun 2022 16:57:25 +0000
+Labels:                 app=rttp
+                        kustomize.toolkit.fluxcd.io/name=gsc-telemetry-mars-production
+                        kustomize.toolkit.fluxcd.io/namespace=flux-system
+Annotations:            deployment.kubernetes.io/revision: 9
+Selector:               app=rttp
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:           app=rttp
+  Annotations:      ad.datadoghq.com/rttp.logs: [{"service":"real-time-telemetry-parser"}]
+                    ad.datadoghq.com/tags: {"env": "mars-production", "service": "real-time-telemetry-parser"}
+                    cattle.io/timestamp: 2022-06-19T12:22:19Z
+                    sidecar.istio.io/proxyCPULimit: 200m
+                    sidecar.istio.io/proxyMemoryLimit: 256Mi
+  Service Account:  telemetry-api
+  Init Containers:
+   aws-s3-uploader:
+    Image:      amazon/aws-cli
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      aws --endpoint-url ${AWS_URL} s3 cp s3://telemetry-mars-production/ASSETS/RTTP/conf/ /rttp/conf/ --recursive;
+      aws --endpoint-url ${AWS_URL} s3 cp s3://telemetry-mars-production/ASSETS/RTTP/csvdb/ /rttp/app/csvdb/ --recursive
+      
+    Limits:
+      cpu:     300m
+      memory:  512Mi
+    Requests:
+      cpu:     100m
+      memory:  256Mi
+    Environment:
+      AWS_ACCESS_KEY_ID:      <set to the key 'minio-access-key' in secret 'telemetry-parser-secrets'>  Optional: false
+      AWS_SECRET_ACCESS_KEY:  <set to the key 'minio-secret-key' in secret 'telemetry-parser-secrets'>  Optional: false
+      AWS_URL:                http://minio.minio.svc.cluster.local
+    Mounts:
+      /rttp/app/csvdb from csvdb (rw)
+      /rttp/conf from conf (rw)
+  Containers:
+   rttp:
+    Image:      harbor.mars.iceye.edge/iceye/telemetry/rttp:production_v1.0.36_fc175c1
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      /rttp/entrypoint.sh
+    Limits:
+      cpu:     1
+      memory:  512Mi
+    Requests:
+      cpu:     500m
+      memory:  256Mi
+    Environment Variables from:
+      telemetry-env  ConfigMap  Optional: false
+    Environment:
+      RTT_DB_HOST:                 main-primary.postgres-operator.svc
+      RTT_DB_NAME:                 rtt_mars_production
+      RTT_DB_USERNAME:             <set to the key 'user' in secret 'rtt-db-credentials'>      Optional: false
+      RTT_DB_PASSWORD:             <set to the key 'password' in secret 'rtt-db-credentials'>  Optional: false
+      RTTP_HOST:                   10.50.5.100
+      GATEWAY_CONNECTION_SERVICE:  ws://gateway-connection-service.gateway-connection-mars-production.svc.cluster.local
+    Mounts:
+      /rttp/app/csvdb from csvdb (rw)
+      /rttp/conf from conf (rw)
+  Volumes:
+   conf:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+   csvdb:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   real-time-telemetry-parser-8f798c545 (1/1 replicas created)
+Events:          <none>

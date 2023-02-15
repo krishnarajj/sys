@@ -1,0 +1,39 @@
+> (command) -n cattle-system cattle-cluster-agent-547cb64d75-w2s9v 
+INFO: Environment: CATTLE_ADDRESS=10.42.2.241 CATTLE_CA_CHECKSUM=c4f67a0f5efee636de038f8f684880b7885142d35507e2a4ef0d13431a8b6494
+    CATTLE_CLUSTER=true CATTLE_CLUSTER_AGENT_PORT=tcp://10.0.0.186:80 CATTLE_CLUSTER_AGENT_PORT_443_TCP=tcp://10.0.0.186:443
+    CATTLE_CLUSTER_AGENT_PORT_443_TCP_ADDR=10.0.0.186 CATTLE_CLUSTER_AGENT_PORT_443_TCP_PORT=443 CATTLE_CLUSTER_AGENT_PORT_443_TCP_PROTO=tcp
+    CATTLE_CLUSTER_AGENT_PORT_80_TCP=tcp://10.0.0.186:80 CATTLE_CLUSTER_AGENT_PORT_80_TCP_ADDR=10.0.0.186 CATTLE_CLUSTER_AGENT_PORT_80_TCP_PORT=80
+    CATTLE_CLUSTER_AGENT_PORT_80_TCP_PROTO=tcp CATTLE_CLUSTER_AGENT_SERVICE_HOST=10.0.0.186 CATTLE_CLUSTER_AGENT_SERVICE_PORT=80
+    CATTLE_CLUSTER_AGENT_SERVICE_PORT_HTTP=80 CATTLE_CLUSTER_AGENT_SERVICE_PORT_HTTPS_INTERNAL=443 CATTLE_CLUSTER_REGISTRY= 
+    CATTLE_FEATURES=embedded-cluster-api=false,fleet=false,monitoringv1=false,multi-cluster-management=false,multi-cluster-management-agent=true,provisioningv2=false,rke2=false
+    CATTLE_INGRESS_IP_DOMAIN=sslip.io CATTLE_INSTALL_UUID=64846b25-3be6-4efa-9f17-efc1f300ab64 CATTLE_INTERNAL_ADDRESS= CATTLE_IS_RKE=true CATTLE_K8S_MANAGED=true
+    CATTLE_NODE_NAME=cattle-cluster-agent-547cb64d75-w2s9v CATTLE_SERVER=https://rancher.iceye.edge CATTLE_SERVER_VERSION=v2.6.6
+INFO: Using resolv.conf: nameserver 10.43.0.10 search cattle-system.svc.cluster.local svc.cluster.local cluster.local options ndots:5
+INFO: https://rancher.iceye.edge/ping is accessible
+INFO: rancher.iceye.edge resolves to 172.29.21.22 172.29.26.21 172.29.19.192
+INFO: Value from https://rancher.iceye.edge/v3/settings/cacerts is an x509 certificate
+time="2023-01-12T15:20:44Z" level=info msg="Listening on /tmp/log.sock"
+time="2023-01-12T15:20:44Z" level=info msg="Rancher agent version v2.6.6 is starting"
+time="2023-01-12T15:20:45Z" level=info msg="Certificate details from https://rancher.iceye.edge"
+time="2023-01-12T15:20:45Z" level=info msg="Certificate #0 (https://rancher.iceye.edge)"
+time="2023-01-12T15:20:45Z" level=info msg="Subject: CN=rancher.iceye.edge,OU=DevOps,O=ICEYE Oy"
+time="2023-01-12T15:20:45Z" level=info msg="Issuer: CN=rancher.iceye.edge,OU=DevOps,O=ICEYE Oy"
+time="2023-01-12T15:20:45Z" level=info msg="IsCA: false"
+time="2023-01-12T15:20:45Z" level=info msg="DNS Names: [rancher.iceye.edge]"
+time="2023-01-12T15:20:45Z" level=info msg="IPAddresses: <none>"
+time="2023-01-12T15:20:45Z" level=info msg="NotBefore: 2021-12-23 11:28:50 +0000 UTC"
+time="2023-01-12T15:20:45Z" level=info msg="NotAfter: 2022-12-23 11:28:50 +0000 UTC"
+time="2023-01-12T15:20:45Z" level=info msg="SignatureAlgorithm: SHA256-RSA"
+time="2023-01-12T15:20:45Z" level=info msg="PublicKeyAlgorithm: RSA"
+time="2023-01-12T15:20:45Z" level=info msg="Certificate details for /etc/kubernetes/ssl/certs/serverca"
+time="2023-01-12T15:20:45Z" level=info msg="Certificate #0 (/etc/kubernetes/ssl/certs/serverca)"
+time="2023-01-12T15:20:45Z" level=info msg="Subject: CN=rancher.iceye.edge,OU=DevOps,O=ICEYE Oy"
+time="2023-01-12T15:20:45Z" level=info msg="Issuer: CN=rancher.iceye.edge,OU=DevOps,O=ICEYE Oy"
+time="2023-01-12T15:20:45Z" level=info msg="IsCA: false"
+time="2023-01-12T15:20:45Z" level=info msg="DNS Names: [rancher.iceye.edge]"
+time="2023-01-12T15:20:45Z" level=info msg="IPAddresses: <none>"
+time="2023-01-12T15:20:45Z" level=info msg="NotBefore: 2021-12-23 11:28:50 +0000 UTC"
+time="2023-01-12T15:20:45Z" level=info msg="NotAfter: 2022-12-23 11:28:50 +0000 UTC"
+time="2023-01-12T15:20:45Z" level=info msg="SignatureAlgorithm: SHA256-RSA"
+time="2023-01-12T15:20:45Z" level=info msg="PublicKeyAlgorithm: RSA"
+time="2023-01-12T15:20:45Z" level=fatal msg="Server certificate is not valid, please check if the host has the correct time configured and if the server certificate has a notAfter date and time in the future. Certificate information is displayed above. error: Get \"https://rancher.iceye.edge\": x509: certificate has expired or is not yet valid: current time 2023-01-12T15:20:45Z is after 2022-12-23T11:28:50Z"

@@ -1,0 +1,38 @@
+> (command) harbor-jobservice-574ffcddc-66hzq -n harbor-system
+Using deprecated annotation `kubectl.kubernetes.io/default-logs-container` in pod/harbor-jobservice-574ffcddc-66hzq.
+Please use `kubectl.kubernetes.io/default-container` instead
+Appending internal tls trust CA to ca-bundle ...
+find: '/etc/harbor/ssl': No such file or directory
+Internal tls trust CA appending is Done.
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/annotation/parser.go:71]: the annotation parser to parser artifact annotation version v1alpha1 registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.cncf.helm.config.v1+json registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.cnab.manifest.v1 registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.oci.image.index.v1+json registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.docker.distribution.manifest.list.v2+json registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.docker.distribution.manifest.v1+prettyjws registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.oci.image.config.v1+json registered
+2023-01-12T13:40:46Z [INFO] [/controller/artifact/processor/processor.go:59]: the processor to process media type application/vnd.docker.container.image.v1+json registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/native/adapter.go:36]: the factory for adapter docker-registry registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/harbor/adaper.go:31]: the factory for adapter harbor registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/dockerhub/adapter.go:26]: Factory for adapter docker-hub registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/huawei/huawei_adapter.go:41]: the factory of Huawei adapter was registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/googlegcr/adapter.go:35]: the factory for adapter google-gcr registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/awsecr/adapter.go:43]: the factory for adapter aws-ecr registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/azurecr/adapter.go:15]: Factory for adapter azure-acr registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/aliacr/adapter.go:32]: the factory for adapter ali-acr registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/jfrog/adapter.go:46]: the factory of jfrog artifactory adapter was registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/quay/adapter.go:54]: the factory of Quay adapter was registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/helmhub/adapter.go:30]: the factory for adapter helm-hub registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/gitlab/adapter.go:17]: the factory for adapter gitlab registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/dtr/adapter.go:22]: the factory of dtr adapter was registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/artifacthub/adapter.go:30]: the factory for adapter artifact-hub registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/tencentcr/adapter.go:41]: the factory for adapter tencent-tcr registered
+2023-01-12T13:40:46Z [INFO] [/pkg/reg/adapter/githubcr/adapter.go:29]: the factory for adapter github-ghcr registered
+2023-01-12T13:40:46Z [ERROR] [/lib/config/metadata/value.go:143]: GetStringToStringMap failed, current value's metadata is not defined, &{Name: Value:}
+2023-01-12T13:40:46Z [ERROR] [/lib/config/metadata/value.go:126]: GetBool failed, the current value's metadata is not defined, &{Name: Value:}
+2023-01-12T13:40:46Z [ERROR] [/lib/config/metadata/value.go:126]: GetBool failed, the current value's metadata is not defined, &{Name: Value:}
+2023-01-12T13:40:46Z [ERROR] [/lib/config/metadata/value.go:78]: GetInt failed, the current value's metadata is not defined, &{Name: Value:}
+2023-01-12T13:40:46Z [INFO] [/pkg/config/rest/rest.go:47]: get configuration from url: http://harbor-core:80/api/v2.0/internalconfig
+2023-01-12T13:40:46Z [INFO] [/jobservice/logger/sweeper_controller.go:97]: 0 outdated log entries are sweepped by sweeper *sweeper.FileSweeper
+2023-01-12T13:40:46Z [INFO] [/common/dao/base.go:66]: Registering database: type-PostgreSQL host-system-primary.postgres-operator.svc.cluster.local port-5432 database-harborcore sslmode-"require"
+2023-01-12T13:40:46Z [INFO] [/common/dao/base.go:71]: Register database completed

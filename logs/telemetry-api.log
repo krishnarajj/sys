@@ -1,0 +1,58 @@
+> (command) -n telemetry-mars-production
+Name:                   telemetry-api
+Namespace:              telemetry-mars-production
+CreationTimestamp:      Sat, 18 Jun 2022 16:57:25 +0000
+Labels:                 app=telemetry-api
+                        kustomize.toolkit.fluxcd.io/name=gsc-telemetry-mars-production
+                        kustomize.toolkit.fluxcd.io/namespace=flux-system
+Annotations:            deployment.kubernetes.io/revision: 4
+Selector:               app=telemetry-api
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:           app=telemetry-api
+  Annotations:      ad.datadoghq.com/tags: {"env": "mars-production", "service": "telemetry-api"}
+                    ad.datadoghq.com/telemetry-api.logs: [{"service":"telemetry-api"}]
+                    sidecar.istio.io/proxyCPULimit: 200m
+                    sidecar.istio.io/proxyMemoryLimit: 256Mi
+  Service Account:  telemetry-api
+  Containers:
+   telemetry-api:
+    Image:      harbor.mars.iceye.edge/iceye/telemetry/api:staging_v0.0.24-34-ga3e04ec
+    Port:       8000/TCP
+    Host Port:  0/TCP
+    Command:
+      /app/gsp-start.sh
+    Limits:
+      cpu:     300m
+      memory:  2Gi
+    Requests:
+      cpu:     100m
+      memory:  2Gi
+    Liveness:  http-get http://:8000/healthz delay=3s timeout=1s period=10s #success=1 #failure=5
+    Environment Variables from:
+      telemetry-env  ConfigMap  Optional: false
+    Environment:
+      TIMESCALE_DB_HOST:      stored-telemetry-db-primary.telemetry-mars-production.svc.cluster.local
+      TIMESCALE_DB_NAME:      stored_telemetry_db_mars_production
+      RTT_DB_HOST:            main-primary.postgres-operator.svc
+      BEACON_DB_NAME:         beacon_mars_production
+      RTT_DB_NAME:            rtt_mars_production
+      RTT_DB_USERNAME:        <set to the key 'user' in secret 'rtt-db-credentials'>         Optional: false
+      RTT_DB_PASSWORD:        <set to the key 'password' in secret 'rtt-db-credentials'>     Optional: false
+      BEACON_DB_USERNAME:     <set to the key 'user' in secret 'beacon-db-credentials'>      Optional: false
+      BEACON_DB_PASSWORD:     <set to the key 'password' in secret 'beacon-db-credentials'>  Optional: false
+      TIMESCALE_DB_USERNAME:  <set to the key 'username' in secret 'stored-telemetry-db'>    Optional: false
+      TIMESCALE_DB_PASSWORD:  <set to the key 'password' in secret 'stored-telemetry-db'>    Optional: false
+    Mounts:                   <none>
+  Volumes:                    <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   telemetry-api-79d4799bff (1/1 replicas created)
+Events:          <none>

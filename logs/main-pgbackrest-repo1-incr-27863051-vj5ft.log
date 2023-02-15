@@ -1,0 +1,68 @@
+> (command) main-pgbackrest-repo1-incr-27863051-vj5ft -n postgres-operator
+Name:         main-pgbackrest-repo1-incr-27863051-vj5ft
+Namespace:    postgres-operator
+Priority:     0
+Node:         mars-node-1/10.50.5.158
+Start Time:   Fri, 23 Dec 2022 08:11:00 +0000
+Labels:       controller-uid=4db0233f-492b-4a1d-842f-1036538617f9
+              job-name=main-pgbackrest-repo1-incr-27863051
+              postgres-operator.crunchydata.com/cluster=main
+              postgres-operator.crunchydata.com/pgbackrest=
+              postgres-operator.crunchydata.com/pgbackrest-cronjob=incr
+              postgres-operator.crunchydata.com/pgbackrest-repo=repo1
+Annotations:  cni.projectcalico.org/containerID: f76ed6b5e66330f832ac50090a02c5bd44fdb11912c317a12e9cad82c9465618
+              cni.projectcalico.org/podIP: 10.42.2.225/32
+              cni.projectcalico.org/podIPs: 10.42.2.225/32
+Status:       Pending
+IP:           10.42.2.225
+IPs:
+  IP:           10.42.2.225
+Controlled By:  Job/main-pgbackrest-repo1-incr-27863051
+Containers:
+  pgbackrest:
+    Container ID:  
+    Image:         registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.36-0
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /opt/crunchy/bin/pgbackrest
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:
+      COMMAND:       backup
+      COMMAND_OPTS:  --stanza=db --repo=1 --type=incr
+      COMPARE_HASH:  true
+      CONTAINER:     pgbackrest
+      NAMESPACE:     postgres-operator
+      SELECTOR:      postgres-operator.crunchydata.com/cluster=main,postgres-operator.crunchydata.com/pgbackrest=,postgres-operator.crunchydata.com/pgbackrest-dedicated=
+    Mounts:
+      /etc/pgbackrest/conf.d from pgbackrest-config (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-slv8x (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  pgbackrest-config:
+    Type:               Projected (a volume that contains injected data from multiple sources)
+    ConfigMapName:      main-pgbackrest-config
+    ConfigMapOptional:  <nil>
+  kube-api-access-slv8x:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason   Age                     From     Message
+  ----    ------   ----                    ----     -------
+  Normal  BackOff  50s (x112031 over 20d)  kubelet  Back-off pulling image "registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.36-0"
